@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -25,7 +24,6 @@ export function DispatchForm() {
   const [resistance, setResistance] = useState("")
   const [cementType, setCementType] = useState("")
   const [slump, setSlump] = useState("")
-  const [notes, setNotes] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -53,7 +51,7 @@ export function DispatchForm() {
         resistance: resistance || null,
         cement_type: cementType || null,
         slump: slump || null,
-        notes: notes || null,
+        notes: null,
       })
 
       router.push("/dispatches")
@@ -231,23 +229,6 @@ export function DispatchForm() {
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Información Adicional</h3>
-              <div className="space-y-2">
-                <Label htmlFor="notes" className="text-sm font-medium">
-                  Notas
-                </Label>
-                <Textarea
-                  id="notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  disabled={isLoading}
-                  placeholder="Agregar observaciones o instrucciones especiales..."
-                  rows={3}
-                  className="resize-none"
-                />
-              </div>
-            </div>
           </div>
 
           <div className="flex gap-3 pt-4 border-t">

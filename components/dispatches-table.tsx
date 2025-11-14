@@ -40,14 +40,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-
-// Función para formatear números con separadores de miles
-const formatNumber = (num: number, decimals: number = 2): string => {
-  return new Intl.NumberFormat('es-PE', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  }).format(num)
-}
+import { formatNumber, formatKg, formatM3 } from "@/lib/format-utils"
 
 // Componente para fila arrastrable
 function SortableRow({ id, children }: { id: string; children: React.ReactNode }) {
@@ -159,7 +152,6 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
     resistance: "",
     cement_type: "",
     slump: "",
-    notes: "",
   })
 
   // Estado para edición
@@ -358,7 +350,6 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
       TIPO: dispatch.cement_type || "N/A",
       "ASENT.": dispatch.slump || "N/A",
       Fecha: format(new Date(dispatch.dispatch_date), "dd/MM/yyyy HH:mm", { locale: es }),
-      Notas: dispatch.notes || "",
     }))
 
     const ws = XLSX.utils.json_to_sheet(exportData)
@@ -367,7 +358,7 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
 
     ws["!cols"] = [
       { wch: 25 }, { wch: 25 }, { wch: 15 }, { wch: 15 }, { wch: 15 },
-      { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 20 }, { wch: 30 },
+      { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 20 },
     ]
 
     XLSX.writeFile(wb, `despachos_${format(new Date(), "yyyy-MM-dd")}.xlsx`)
@@ -396,7 +387,7 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
       resistance: newDispatch.resistance || null,
       cement_type: newDispatch.cement_type || null,
       slump: newDispatch.slump || null,
-      notes: newDispatch.notes || null,
+      notes: null,
     })
 
     toast.success("Despacho creado exitosamente")
@@ -412,7 +403,6 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
       resistance: "",
       cement_type: "",
       slump: "",
-      notes: "",
     })
     setIsAddingNew(false)
     setAddingAfterRow(null)
@@ -439,7 +429,6 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
       resistance: dispatch.resistance || "",
       cement_type: dispatch.cement_type || "",
       slump: dispatch.slump || "",
-      notes: dispatch.notes || "",
     })
     setIsEditManualClient(false)
     setIsEditManualDriver(false)
@@ -459,7 +448,7 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
       resistance: editData.resistance || null,
       cement_type: editData.cement_type || null,
       slump: editData.slump || null,
-      notes: editData.notes || null,
+      notes: null,
     })
     toast.success("Despacho actualizado exitosamente")
     setEditingId(null)
@@ -666,9 +655,9 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
         case "silo":
           return <Badge variant="outline">{dispatch.silo?.name || "N/A"}</Badge>
         case "quantity_m3":
-          return <span className="font-semibold tabular-nums">{formatNumber(dispatch.quantity_m3)}</span>
+          return <span className="font-semibold tabular-nums">{formatM3(dispatch.quantity_m3)}</span>
         case "quantity_kg":
-          return <span className="font-semibold tabular-nums">{formatNumber(dispatch.quantity_kg)}</span>
+          return <span className="font-semibold tabular-nums">{formatKg(dispatch.quantity_kg, 0)}</span>
         case "resistance":
           return <span className="text-sm">{dispatch.resistance || "-"}</span>
         case "cement_type":
@@ -740,11 +729,11 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
                 <div className="flex items-center gap-6">
                   <div className="text-right">
                     <p className="text-xs text-blue-600 font-medium">Cantidad en M³</p>
-                    <p className="text-2xl font-bold text-blue-900 tabular-nums">{formatNumber(totals.m3)}</p>
+                    <p className="text-2xl font-bold text-blue-900 tabular-nums">{formatM3(totals.m3)}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-blue-600 font-medium">Cantidad en Kg</p>
-                    <p className="text-2xl font-bold text-blue-900 tabular-nums">{formatNumber(totals.kg)}</p>
+                    <p className="text-2xl font-bold text-blue-900 tabular-nums">{formatKg(totals.kg, 0)}</p>
                   </div>
                   <Button
                     variant="ghost"

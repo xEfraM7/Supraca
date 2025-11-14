@@ -113,25 +113,25 @@ const MOCK_SILOS: Silo[] = [
   {
     id: "1",
     name: "Silo 1",
-    capacity: 100,
-    current_stock: 75,
-    min_stock: 20,
+    capacity: 100000,
+    current_stock: 75000,
+    min_stock: 20000,
     created_at: new Date().toISOString(),
   },
   {
     id: "2",
     name: "Silo 2",
-    capacity: 100,
-    current_stock: 45,
-    min_stock: 20,
+    capacity: 100000,
+    current_stock: 45000,
+    min_stock: 20000,
     created_at: new Date().toISOString(),
   },
   {
     id: "3",
     name: "Silo 3",
-    capacity: 150,
-    current_stock: 120,
-    min_stock: 30,
+    capacity: 100000,
+    current_stock: 82000,
+    min_stock: 30000,
     created_at: new Date().toISOString(),
   }
 ]
@@ -290,27 +290,21 @@ const MOCK_DISPATCHES: Dispatch[] = Array.from({ length: 100 }, (_, i) => {
   const resistances = ["175", "210", "245", "280", "315", "350"]
   const cementTypes = ["I", "II", "III", "IV", "V"]
   const slumps = ["3", "4", "5", "6", "7"]
-  const notes = [
-    "Entrega urgente",
-    "Obra en construcción",
-    "Proyecto residencial",
-    "Edificio comercial",
-    "Reparación de estructura",
-    null,
-    null,
-    "Entrega programada",
-    "Cliente preferencial",
-  ]
+
+  // Generar cantidades más realistas (entre 3 y 12 m³)
+  const quantityM3 = Number((Math.random() * 9 + 3).toFixed(2))
+  // Conversión aproximada: 1 m³ de concreto ≈ 2,400 kg
+  const quantityKg = Number((quantityM3 * 2400).toFixed(2))
 
   return {
     id: (i + 1).toString(),
     silo_id: ((i % 3) + 1).toString(),
     client_id: ((i % 8) + 1).toString(),
     driver_id: ((i % 8) + 1).toString(),
-    quantity_m3: Number((Math.random() * 20 + 5).toFixed(2)),
-    quantity_kg: Number((Math.random() * 50000 + 10000).toFixed(2)),
+    quantity_m3: quantityM3,
+    quantity_kg: quantityKg,
     dispatch_date: getRandomDate(Math.floor(Math.random() * 365)),
-    notes: notes[i % notes.length],
+    notes: null,
     resistance: resistances[i % resistances.length],
     cement_type: cementTypes[i % cementTypes.length],
     slump: slumps[i % slumps.length],
@@ -428,9 +422,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }
 
   const addDispatch = (dispatch: Omit<Dispatch, "id" | "created_at">) => {
+    // Restar la cantidad en kg del stock del silo
     setSilos(
       silos.map((s) =>
-        s.id === dispatch.silo_id ? { ...s, current_stock: s.current_stock - dispatch.quantity_m3 } : s,
+        s.id === dispatch.silo_id ? { ...s, current_stock: s.current_stock - dispatch.quantity_kg } : s,
       ),
     )
 
@@ -445,8 +440,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const updateDispatch = (id: string, updates: Partial<Dispatch>) => {
     const oldDispatch = dispatches.find((d) => d.id === id)
-    if (oldDispatch && updates.quantity_m3 !== undefined) {
-      const diff = updates.quantity_m3 - oldDispatch.quantity_m3
+    if (oldDispatch && updates.quantity_kg !== undefined) {
+      const diff = updates.quantity_kg - oldDispatch.quantity_kg
       setSilos(silos.map((s) => (s.id === oldDispatch.silo_id ? { ...s, current_stock: s.current_stock - diff } : s)))
     }
     setDispatches(dispatches.map((d) => (d.id === id ? { ...d, ...updates } : d)))
@@ -455,9 +450,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const deleteDispatch = (id: string) => {
     const dispatch = dispatches.find((d) => d.id === id)
     if (dispatch) {
+      // Devolver la cantidad en kg al stock del silo
       setSilos(
         silos.map((s) =>
-          s.id === dispatch.silo_id ? { ...s, current_stock: s.current_stock + dispatch.quantity_m3 } : s,
+          s.id === dispatch.silo_id ? { ...s, current_stock: s.current_stock + dispatch.quantity_kg } : s,
         ),
       )
     }
