@@ -21,6 +21,7 @@ export function DispatchForm() {
   const [driverId, setDriverId] = useState("")
   const [siloId, setSiloId] = useState("")
   const [quantity, setQuantity] = useState("")
+  const [quantityKg, setQuantityKg] = useState("")
   const [resistance, setResistance] = useState("")
   const [cementType, setCementType] = useState("")
   const [slump, setSlump] = useState("")
@@ -47,6 +48,7 @@ export function DispatchForm() {
         driver_id: driverId,
         silo_id: siloId,
         quantity_m3: Number(quantity),
+        quantity_kg: Number(quantityKg),
         dispatch_date: new Date().toISOString(),
         resistance: resistance || null,
         cement_type: cementType || null,
@@ -121,7 +123,7 @@ export function DispatchForm() {
 
             <div className="space-y-4">
               <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Detalles del Despacho</h3>
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-3">
                 <div className="space-y-2">
                   <Label htmlFor="silo" className="text-sm font-medium">
                     Silo <span className="text-red-500">*</span>
@@ -151,6 +153,23 @@ export function DispatchForm() {
                     min="0.01"
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
+                    placeholder="0.00"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="quantityKg" className="text-sm font-medium">
+                    Cantidad (Kg) <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="quantityKg"
+                    type="number"
+                    step="0.01"
+                    min="0.01"
+                    value={quantityKg}
+                    onChange={(e) => setQuantityKg(e.target.value)}
                     placeholder="0.00"
                     required
                     disabled={isLoading}

@@ -26,7 +26,7 @@ export function SiloInventoryCards() {
             <CardContent className="space-y-3">
               <div className="flex items-baseline justify-between">
                 <span className="text-2xl font-bold text-slate-900">{silo.current_stock.toFixed(2)}</span>
-                <span className="text-sm text-slate-600">/ {silo.capacity.toFixed(2)} m³</span>
+                <span className="text-sm text-slate-600">/ {silo.capacity.toFixed(2)} Kg</span>
               </div>
 
               <Progress value={percentage} className="h-2" />

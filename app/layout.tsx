@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { DataProvider } from "@/lib/data-context"
 import { AppLayout } from "@/components/app-layout"
+import { Toaster } from "sonner"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default function RootLayout({
         <DataProvider>
           <AppLayout>{children}</AppLayout>
         </DataProvider>
+        <Toaster position="top-right" richColors />
         <Analytics />
       </body>
     </html>

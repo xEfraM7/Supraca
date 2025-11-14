@@ -47,6 +47,7 @@ export interface Dispatch {
   client_id: string
   driver_id: string
   quantity_m3: number
+  quantity_kg: number
   dispatch_date: string
   notes: string | null
   resistance: string | null // REST
@@ -76,6 +77,7 @@ interface DataContextType {
   updateDispatch: (id: string, dispatch: Partial<Dispatch>) => void
   deleteDispatch: (id: string) => void
   updateSilo: (id: string, silo: Partial<Silo>) => void
+  resetData: () => void
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined)
@@ -153,6 +155,60 @@ const MOCK_CLIENTS: Client[] = [
     address: "Jr. Comercio 456",
     created_at: new Date().toISOString(),
   },
+  {
+    id: "3",
+    name: "Edificaciones del Sur",
+    document: "20456789123",
+    phone: "+51 999 789 456",
+    email: "info@edisur.com",
+    address: "Av. Los Constructores 789",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "4",
+    name: "Obras Civiles Norte",
+    document: "20789456123",
+    phone: "+51 999 456 789",
+    email: "contacto@ocnorte.com",
+    address: "Jr. Industrial 321",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "5",
+    name: "Constructora Moderna SAC",
+    document: "20147258369",
+    phone: "+51 999 147 258",
+    email: "ventas@moderna.com",
+    address: "Av. Progreso 555",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "6",
+    name: "Grupo Constructor Lima",
+    document: "20369258147",
+    phone: "+51 999 369 258",
+    email: "info@gclima.com",
+    address: "Calle Los Pinos 888",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "7",
+    name: "Inversiones Inmobiliarias",
+    document: "20258369147",
+    phone: "+51 999 258 369",
+    email: "contacto@inversiones.com",
+    address: "Av. Central 999",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "8",
+    name: "Constructora El Roble",
+    document: "20951753486",
+    phone: "+51 999 951 753",
+    email: "info@elroble.com",
+    address: "Jr. Las Flores 444",
+    created_at: new Date().toISOString(),
+  },
 ]
 
 const MOCK_DRIVERS: Driver[] = [
@@ -172,36 +228,95 @@ const MOCK_DRIVERS: Driver[] = [
     truck_plate: "XYZ-789",
     created_at: new Date().toISOString(),
   },
+  {
+    id: "3",
+    name: "Carlos Rodríguez",
+    license: "Q45678912",
+    phone: "+51 999 555 666",
+    truck_plate: "DEF-456",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "4",
+    name: "Ana Martínez",
+    license: "Q78945612",
+    phone: "+51 999 777 888",
+    truck_plate: "GHI-789",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "5",
+    name: "Luis Torres",
+    license: "Q32165498",
+    phone: "+51 999 321 654",
+    truck_plate: "JKL-321",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "6",
+    name: "Rosa Fernández",
+    license: "Q65498732",
+    phone: "+51 999 654 987",
+    truck_plate: "MNO-654",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "7",
+    name: "Pedro Sánchez",
+    license: "Q98765432",
+    phone: "+51 999 987 654",
+    truck_plate: "PQR-987",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "8",
+    name: "Laura Gómez",
+    license: "Q14725836",
+    phone: "+51 999 147 258",
+    truck_plate: "STU-147",
+    created_at: new Date().toISOString(),
+  },
 ]
 
-const MOCK_DISPATCHES: Dispatch[] = [
-  {
-    id: "1",
-    silo_id: "1",
-    client_id: "1",
-    driver_id: "1",
-    quantity_m3: 10,
-    dispatch_date: new Date().toISOString(),
-    notes: "Entrega urgente",
-    resistance: "210",
-    cement_type: "I",
-    slump: "4",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    silo_id: "2",
-    client_id: "2",
-    driver_id: "2",
-    quantity_m3: 15,
-    dispatch_date: new Date().toISOString(),
-    notes: null,
-    resistance: "280",
-    cement_type: "V",
-    slump: "5",
-    created_at: new Date().toISOString(),
-  },
-]
+// Función auxiliar para generar fechas aleatorias en los últimos 12 meses
+const getRandomDate = (daysAgo: number) => {
+  const date = new Date()
+  date.setDate(date.getDate() - daysAgo)
+  date.setHours(Math.floor(Math.random() * 24), Math.floor(Math.random() * 60), 0, 0)
+  return date.toISOString()
+}
+
+const MOCK_DISPATCHES: Dispatch[] = Array.from({ length: 100 }, (_, i) => {
+  const resistances = ["175", "210", "245", "280", "315", "350"]
+  const cementTypes = ["I", "II", "III", "IV", "V"]
+  const slumps = ["3", "4", "5", "6", "7"]
+  const notes = [
+    "Entrega urgente",
+    "Obra en construcción",
+    "Proyecto residencial",
+    "Edificio comercial",
+    "Reparación de estructura",
+    null,
+    null,
+    "Entrega programada",
+    "Cliente preferencial",
+  ]
+
+  return {
+    id: (i + 1).toString(),
+    silo_id: ((i % 3) + 1).toString(),
+    client_id: ((i % 8) + 1).toString(),
+    driver_id: ((i % 8) + 1).toString(),
+    quantity_m3: Number((Math.random() * 20 + 5).toFixed(2)),
+    quantity_kg: Number((Math.random() * 50000 + 10000).toFixed(2)),
+    dispatch_date: getRandomDate(Math.floor(Math.random() * 365)),
+    notes: notes[i % notes.length],
+    resistance: resistances[i % resistances.length],
+    cement_type: cementTypes[i % cementTypes.length],
+    slump: slumps[i % slumps.length],
+    created_at: getRandomDate(Math.floor(Math.random() * 365)),
+  }
+})
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<Profile | null>(null)
@@ -218,10 +333,26 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const savedDispatches = localStorage.getItem("dispatches")
 
     if (savedUser) setCurrentUser(JSON.parse(savedUser))
-    if (savedClients) setClients(JSON.parse(savedClients))
-    if (savedDrivers) setDrivers(JSON.parse(savedDrivers))
+    
+    // Cargar clientes o usar mock si no hay suficientes
+    if (savedClients) {
+      const parsedClients = JSON.parse(savedClients)
+      setClients(parsedClients.length >= 8 ? parsedClients : MOCK_CLIENTS)
+    }
+    
+    // Cargar conductores o usar mock si no hay suficientes
+    if (savedDrivers) {
+      const parsedDrivers = JSON.parse(savedDrivers)
+      setDrivers(parsedDrivers.length >= 8 ? parsedDrivers : MOCK_DRIVERS)
+    }
+    
     if (savedSilos) setSilos(JSON.parse(savedSilos))
-    if (savedDispatches) setDispatches(JSON.parse(savedDispatches))
+    
+    // Cargar despachos o usar mock si no hay suficientes
+    if (savedDispatches) {
+      const parsedDispatches = JSON.parse(savedDispatches)
+      setDispatches(parsedDispatches.length >= 50 ? parsedDispatches : MOCK_DISPATCHES)
+    }
   }, [])
 
   useEffect(() => {
@@ -337,6 +468,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
     setSilos(silos.map((s) => (s.id === id ? { ...s, ...updates } : s)))
   }
 
+  const resetData = () => {
+    localStorage.removeItem("clients")
+    localStorage.removeItem("drivers")
+    localStorage.removeItem("silos")
+    localStorage.removeItem("dispatches")
+    setClients(MOCK_CLIENTS)
+    setDrivers(MOCK_DRIVERS)
+    setSilos(MOCK_SILOS)
+    setDispatches(MOCK_DISPATCHES)
+  }
+
   return (
     <DataContext.Provider
       value={{
@@ -357,6 +499,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         updateDispatch,
         deleteDispatch,
         updateSilo,
+        resetData,
       }}
     >
       {children}
