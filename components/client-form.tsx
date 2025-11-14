@@ -83,13 +83,13 @@ export function ClientForm() {
 
                 <div className="space-y-2">
                   <Label htmlFor="document" className="text-sm font-medium">
-                    Documento / RUC <span className="text-red-500">*</span>
+                    Cédula de Identidad <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="document"
                     value={document}
                     onChange={(e) => setDocument(e.target.value)}
-                    placeholder="DNI, RUC o documento de identificación"
+                    placeholder="Cédula de Identidad"
                     required
                     disabled={isLoading}
                     className="h-11"
