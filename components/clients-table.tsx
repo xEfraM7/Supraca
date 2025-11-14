@@ -252,6 +252,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             <Input
                               value={editData.name}
                               onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(client.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -259,6 +260,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             <Input
                               value={editData.document}
                               onChange={(e) => setEditData({ ...editData, document: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(client.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -266,6 +268,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             <Input
                               value={editData.phone}
                               onChange={(e) => setEditData({ ...editData, phone: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(client.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -273,6 +276,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             <Input
                               value={editData.email}
                               onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(client.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -280,6 +284,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             <Input
                               value={editData.address}
                               onChange={(e) => setEditData({ ...editData, address: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(client.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -339,6 +344,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             placeholder="Nombre del cliente"
                             value={newClient.name}
                             onChange={(e) => setNewClient({ ...newClient, name: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -347,6 +353,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             placeholder="Cédula de Identidad"
                             value={newClient.document}
                             onChange={(e) => setNewClient({ ...newClient, document: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -355,6 +362,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             placeholder="Teléfono"
                             value={newClient.phone}
                             onChange={(e) => setNewClient({ ...newClient, phone: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -363,6 +371,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             placeholder="Correo"
                             value={newClient.email}
                             onChange={(e) => setNewClient({ ...newClient, email: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -371,6 +380,7 @@ export function ClientsTable({ profile }: ClientsTableProps) {
                             placeholder="Dirección"
                             value={newClient.address}
                             onChange={(e) => setNewClient({ ...newClient, address: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>

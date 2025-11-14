@@ -514,6 +514,7 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
                   <Input 
                     value={editData.client_name || ""} 
                     onChange={(e) => setEditData({ ...editData, client_name: e.target.value, client_id: "" })} 
+                    onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(dispatch.id)}
                     placeholder="Nombre del cliente"
                     className="h-8 flex-1" 
                   />
@@ -560,6 +561,7 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
                   <Input 
                     value={editData.driver_name || ""} 
                     onChange={(e) => setEditData({ ...editData, driver_name: e.target.value, driver_id: "" })} 
+                    onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(dispatch.id)}
                     placeholder="Nombre del conductor"
                     className="h-8 flex-1" 
                   />
@@ -612,15 +614,15 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
             </Select>
           )
         case "quantity_m3":
-          return <Input type="number" step="0.01" value={editData.quantity_m3} onChange={(e) => setEditData({ ...editData, quantity_m3: e.target.value })} className="h-8 w-24" />
+          return <Input type="number" step="0.01" value={editData.quantity_m3} onChange={(e) => setEditData({ ...editData, quantity_m3: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(dispatch.id)} className="h-8 w-24" />
         case "quantity_kg":
-          return <Input type="number" step="0.01" value={editData.quantity_kg} onChange={(e) => setEditData({ ...editData, quantity_kg: e.target.value })} className="h-8 w-24" />
+          return <Input type="number" step="0.01" value={editData.quantity_kg} onChange={(e) => setEditData({ ...editData, quantity_kg: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(dispatch.id)} className="h-8 w-24" />
         case "resistance":
-          return <Input value={editData.resistance} onChange={(e) => setEditData({ ...editData, resistance: e.target.value })} className="h-8 w-16" />
+          return <Input value={editData.resistance} onChange={(e) => setEditData({ ...editData, resistance: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(dispatch.id)} className="h-8 w-16" />
         case "cement_type":
-          return <Input value={editData.cement_type} onChange={(e) => setEditData({ ...editData, cement_type: e.target.value })} className="h-8 w-16" />
+          return <Input value={editData.cement_type} onChange={(e) => setEditData({ ...editData, cement_type: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(dispatch.id)} className="h-8 w-16" />
         case "slump":
-          return <Input value={editData.slump} onChange={(e) => setEditData({ ...editData, slump: e.target.value })} className="h-8 w-16" />
+          return <Input value={editData.slump} onChange={(e) => setEditData({ ...editData, slump: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(dispatch.id)} className="h-8 w-16" />
         case "date":
           return <span className="text-sm whitespace-nowrap">{format(new Date(dispatch.dispatch_date), "dd MMM yyyy", { locale: es })}</span>
         default:
@@ -947,6 +949,7 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
                                               <Input 
                                                 value={newDispatch.client_name} 
                                                 onChange={(e) => setNewDispatch({ ...newDispatch, client_name: e.target.value, client_id: "" })} 
+                                                onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                                                 placeholder="Nombre del cliente"
                                                 className="h-8 flex-1" 
                                               />
@@ -995,6 +998,7 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
                                               <Input 
                                                 value={newDispatch.driver_name} 
                                                 onChange={(e) => setNewDispatch({ ...newDispatch, driver_name: e.target.value, driver_id: "" })} 
+                                                onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                                                 placeholder="Nombre del conductor"
                                                 className="h-8 flex-1" 
                                               />
@@ -1052,31 +1056,31 @@ export function DispatchesTable({ profile }: DispatchesTableProps) {
                                   case "quantity_m3":
                                     return (
                                       <TableCell key={columnId}>
-                                        <Input type="number" step="0.01" placeholder="M³" value={newDispatch.quantity_m3} onChange={(e) => setNewDispatch({ ...newDispatch, quantity_m3: e.target.value })} className="h-8 w-24" />
+                                        <Input type="number" step="0.01" placeholder="M³" value={newDispatch.quantity_m3} onChange={(e) => setNewDispatch({ ...newDispatch, quantity_m3: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleAddNew()} className="h-8 w-24" />
                                       </TableCell>
                                     )
                                   case "quantity_kg":
                                     return (
                                       <TableCell key={columnId}>
-                                        <Input type="number" step="0.01" placeholder="Kg" value={newDispatch.quantity_kg} onChange={(e) => setNewDispatch({ ...newDispatch, quantity_kg: e.target.value })} className="h-8 w-24" />
+                                        <Input type="number" step="0.01" placeholder="Kg" value={newDispatch.quantity_kg} onChange={(e) => setNewDispatch({ ...newDispatch, quantity_kg: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleAddNew()} className="h-8 w-24" />
                                       </TableCell>
                                     )
                                   case "resistance":
                                     return (
                                       <TableCell key={columnId}>
-                                        <Input placeholder="REST" value={newDispatch.resistance} onChange={(e) => setNewDispatch({ ...newDispatch, resistance: e.target.value })} className="h-8 w-16" />
+                                        <Input placeholder="REST" value={newDispatch.resistance} onChange={(e) => setNewDispatch({ ...newDispatch, resistance: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleAddNew()} className="h-8 w-16" />
                                       </TableCell>
                                     )
                                   case "cement_type":
                                     return (
                                       <TableCell key={columnId}>
-                                        <Input placeholder="TIPO" value={newDispatch.cement_type} onChange={(e) => setNewDispatch({ ...newDispatch, cement_type: e.target.value })} className="h-8 w-16" />
+                                        <Input placeholder="TIPO" value={newDispatch.cement_type} onChange={(e) => setNewDispatch({ ...newDispatch, cement_type: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleAddNew()} className="h-8 w-16" />
                                       </TableCell>
                                     )
                                   case "slump":
                                     return (
                                       <TableCell key={columnId}>
-                                        <Input placeholder="ASENT" value={newDispatch.slump} onChange={(e) => setNewDispatch({ ...newDispatch, slump: e.target.value })} className="h-8 w-16" />
+                                        <Input placeholder="ASENT" value={newDispatch.slump} onChange={(e) => setNewDispatch({ ...newDispatch, slump: e.target.value })} onKeyDown={(e) => e.key === "Enter" && handleAddNew()} className="h-8 w-16" />
                                       </TableCell>
                                     )
                                   case "date":

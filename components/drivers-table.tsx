@@ -246,6 +246,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             <Input
                               value={editData.name}
                               onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(driver.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -253,6 +254,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             <Input
                               value={editData.license}
                               onChange={(e) => setEditData({ ...editData, license: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(driver.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -260,6 +262,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             <Input
                               value={editData.phone}
                               onChange={(e) => setEditData({ ...editData, phone: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(driver.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -267,6 +270,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             <Input
                               value={editData.truck_plate}
                               onChange={(e) => setEditData({ ...editData, truck_plate: e.target.value })}
+                              onKeyDown={(e) => e.key === "Enter" && handleSaveEdit(driver.id)}
                               className="h-8"
                             />
                           </TableCell>
@@ -327,6 +331,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             placeholder="Nombre del conductor"
                             value={newDriver.name}
                             onChange={(e) => setNewDriver({ ...newDriver, name: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -335,6 +340,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             placeholder="Licencia"
                             value={newDriver.license}
                             onChange={(e) => setNewDriver({ ...newDriver, license: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -343,6 +349,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             placeholder="Teléfono"
                             value={newDriver.phone}
                             onChange={(e) => setNewDriver({ ...newDriver, phone: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -351,6 +358,7 @@ export function DriversTable({ profile }: DriversTableProps) {
                             placeholder="Placa"
                             value={newDriver.truck_plate}
                             onChange={(e) => setNewDriver({ ...newDriver, truck_plate: e.target.value })}
+                            onKeyDown={(e) => e.key === "Enter" && handleAddNew()}
                             className="h-8"
                           />
                         </TableCell>
@@ -390,7 +398,7 @@ export function DriversTable({ profile }: DriversTableProps) {
       </AlertDialog>
 
       <Dialog open={historyDialogOpen} onOpenChange={setHistoryDialogOpen}>
-        <DialogContent className="max-h-[90vh] max-w-96  flex flex-col p-6">
+        <DialogContent className="w-[calc(100vw-2rem)] max-w-none max-h-[98vh] flex flex-col p-6">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
               Historial de Despachos - {selectedDriver?.name}
